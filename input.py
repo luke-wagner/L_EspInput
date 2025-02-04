@@ -1,8 +1,8 @@
 from machine import Pin
 
 led0 = Pin(2, Pin.OUT)  # Onboard LED
-led1 = Pin(34, Pin.OUT) # External LED 1
-led2 = Pin(35, Pin.OUT) # External LED 2
+led1 = Pin(25, Pin.OUT) # External LED 1
+led2 = Pin(26, Pin.OUT) # External LED 2
 
 leds = [led0, led1, led2]
 
