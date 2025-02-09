@@ -1,4 +1,10 @@
-from machine import Pin
+# File: input.py
+# Author: Luke Wagner
+# 2/8/2025
+#
+# Contains all input/output definitions for the ESP32
+
+from machine import Pin, ADC
 
 ### I/O #############################################################
 # ALL PIN NUMBERS ARE GPIO NUMBERS!
@@ -16,26 +22,33 @@ led1 = Pin(18, Pin.OUT)
 led2 = Pin(19, Pin.OUT)
 led3 = Pin(21, Pin.OUT)
 
-# Joystick control? - TBD
+# Joystick: Button-press
+button6 = Pin(17, Pin.IN)
 
-# UNUSED: GPIO17, GPIO22, GPIO23
+# UNUSED: GPIO22, GPIO23
 
 #--------------------------------------------------------------------
 ### RIGHT SIDE
 
-# 4 larger pushbuttons
-button2 = Pin(26, Pin.IN)
-button3 = Pin(25, Pin.IN)
-button4 = Pin(33, Pin.IN)
-button5 = Pin(32, Pin.IN)
+# Joystick: Vertical and Horizontal
+vert = ADC(Pin(32)) # ADC1_4
+vert.atten(ADC.ATTN_11DB)       #Full range: 3.3v
+horiz = ADC(Pin(33)) # ADC1_5
+horiz.atten(ADC.ATTN_11DB)       #Full range: 3.3v
 
-# UNUSED: GPIO13, GPIO14, GPIO27
+# 4 larger pushbuttons
+button2 = Pin(14, Pin.IN)
+button3 = Pin(27, Pin.IN)
+button4 = Pin(26, Pin.IN)
+button5 = Pin(25, Pin.IN)
+
+# UNUSED: GPIO13
 
 #--------------------------------------------------------------------
 
 leds = [led0, led1, led2, led3]
 
-buttons = [button0, button1, button2, button3, button4, button5]
+buttons = [button0, button1, button2, button3, button4, button5, button6]
 
 def button_pressed(num):
     try:
