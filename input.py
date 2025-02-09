@@ -4,7 +4,32 @@
 #
 # Contains all input/output definitions for the ESP32
 
+import micropython
 from machine import Pin, ADC
+import uasyncio as asyncio
+
+### Interrupt events   ##############################################
+btn0_event = ("btn0_event", asyncio.Event())
+btn1_event = ("btn1_event", asyncio.Event())
+
+interrupt_events = [btn0_event, btn1_event]
+
+### Interrupt handlers ##############################################
+def _button0_handler(pin):
+    btn0_event[1].set()    # Set this event to be handled in the main code
+
+def _button1_handler(pin):
+    btn1_event[1].set()    # Set this event to be handled in the main code
+
+def button0_isr(pin):
+    # We want to keep the actual ISR as short as possible.
+    # Using a scheduler to handle the main code of the event
+    micropython.schedule(_button0_handler, pin)
+
+def button1_isr(pin):
+    # We want to keep the actual ISR as short as possible.
+    # Using a scheduler to handle the main code of the event
+    micropython.schedule(_button1_handler, pin)
 
 ### I/O #############################################################
 # ALL PIN NUMBERS ARE GPIO NUMBERS!
@@ -14,8 +39,11 @@ led0 = Pin(2, Pin.OUT) # Onboard LED
 ### LEFT SIDE
 #--------------------------------------------------------------------
 # Two (small) pushbuttons
-button0 = Pin(4, Pin.IN)
-button1 = Pin(16, Pin.IN)
+button0 = Pin(4, Pin.IN) # Power button
+button1 = Pin(16, Pin.IN) # Reset button
+
+button0.irq(trigger=Pin.IRQ_FALLING, handler=button0_isr)
+button1.irq(trigger=Pin.IRQ_FALLING, handler=button1_isr)
 
 # LEDs
 led1 = Pin(18, Pin.OUT)
