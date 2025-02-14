@@ -8,6 +8,12 @@ import micropython
 from machine import Pin, ADC
 import uasyncio as asyncio
 
+### Constants
+V_LOW_THRESHOLD = 500
+V_HIGH_THRESHOLD = 3595
+H_LOW_THRESHOLD = 500
+H_HIGH_THRESHOLD = 3595
+
 ### Interrupt events   ##############################################
 btn0_event = ("btn0_event", asyncio.Event())
 btn1_event = ("btn1_event", asyncio.Event())
@@ -97,3 +103,15 @@ def write_led(num, value):
         
     if led is not None:
         led.value(value)
+
+def joystick_left_held():
+    return horiz.read() < H_LOW_THRESHOLD
+
+def joystick_right_held():
+    return horiz.read() > H_HIGH_THRESHOLD
+
+def joystick_up_held():
+    return vert.read() > V_HIGH_THRESHOLD
+
+def joystick_down_held():
+    return vert.read() < V_LOW_THRESHOLD
