@@ -105,10 +105,10 @@ def write_led(num, value):
         led.value(value)
 
 def joystick_left_held():
-    return horiz.read() < H_LOW_THRESHOLD
+    return horiz.read() > H_HIGH_THRESHOLD
 
 def joystick_right_held():
-    return horiz.read() > H_HIGH_THRESHOLD
+    return horiz.read() < H_LOW_THRESHOLD
 
 def joystick_up_held():
     return vert.read() > V_HIGH_THRESHOLD
