@@ -2,7 +2,7 @@
 # Author: Luke Wagner
 # 2/8/2025
 #
-# Contains all input/output definitions for the ESP32
+# Contains low-level I/O definitions for direct access to board I/O
 
 import micropython
 from machine import Pin, ADC
