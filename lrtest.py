@@ -6,12 +6,9 @@
 
 import time
 
-from espinput.input import *
+from espinput.iodefs import *
 
 while True:
-    vert_value = vert.read()
-    horiz_value = horiz.read()
-
     if joystick_right_held():
         print("RIGHT")
         write_led(2, 1)

@@ -12,7 +12,7 @@
 
 import uasyncio as asyncio
 
-from espinput.input import write_led
+from espinput.iodefs import write_led
 
 class LEDController:
     def __init__(self):

@@ -7,23 +7,21 @@
 
 import time
 
-from espinput.input import *
+from espinput.iodefs import *
 
-button_count = len(buttons)
-led_count = len(leds)
+button_count = button_count()
+led_count = led_count()
 
 while True:
     any_button_pressed = False
-
-    vert_value = vert.read()
-    horiz_value = horiz.read()
 
     for i in range(button_count):
         if button_pressed(i):
             any_button_pressed = True
             print("Button %d pressed" % i)
     
-    if any_button_pressed or vert_value > 2000 or horiz_value > 2000:
+    if (any_button_pressed or joystick_left_held() or joystick_right_held or 
+    joystick_up_held or joystick_down_held()):
         for i in range(led_count):
             write_led(i, 1) # Turn on all LEDs
     else:
